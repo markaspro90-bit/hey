@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15141c">
+  <title>Message Studio</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Message Studio home"><span class="brand-mark" aria-hidden="true">M</span> Message Studio</a>
+    <div id="identity" class="identity" hidden><span id="account"></span><button id="logout" class="quiet">Sign out</button></div>
+  </header>
+  <main>
+    <section id="loading" class="signin card" aria-live="polite">Opening Message Studio…</section>
+    <section id="signin" class="signin card" hidden>
+      <span class="brand-mark brand-mark-large" aria-hidden="true">M</span>
+      <h1>Sign in to Message Studio</h1>
+      <p>Use an approved Discord account to compose and publish messages from your bot.</p>
+      <a class="button primary" href="/auth/discord">Continue with Discord</a>
+      <p id="signin-error" class="notice error" role="alert" hidden></p>
+    </section>
+    <section id="studio" hidden>
+      <div class="heading">
+        <h1>Compose a message</h1>
+        <p>Write, preview, and publish to your Discord server.</p>
+      </div>
+      <div class="destination card">
+        <span class="hash" aria-hidden="true">#</span>
+        <div class="destination-details">
+          <label for="channel">Destination channel</label>
+          <span id="server-name" class="muted"></span>
+        </div>
+        <select id="channel" disabled><option value="">Loading channels…</option></select>
+        <button id="refresh" class="quiet" type="button">Refresh</button>
+      </div>
+      <p id="channel-status" class="notice error" role="alert" hidden></p>
+      <div class="workspace">
+        <section class="card composer" aria-labelledby="message-heading">
+          <div class="card-header">
+            <h2 id="message-heading">Message</h2>
+            <button type="button" class="quiet" id="reset">Clear draft</button>
+          </div>
+          <div class="card-body">
+            <label for="content">Message text</label>
+            <textarea id="content" rows="6" maxlength="2000" placeholder="Write your message here…"></textarea>
+            <div class="input-meta"><span>Markdown and emoji supported</span><span id="counter">0 / 2,000</span></div>
+            <label for="files" class="upload-label">Attach images</label>
+            <input id="files" type="file" accept="image/png,image/jpeg,image/gif,image/webp" multiple>
+            <p class="input-meta" id="file-help">PNG, JPEG, GIF, or WebP · 8 MiB total</p>
+            <div id="file-list" class="file-list"></div>
+            <div class="embeds">
+              <div class="embed-header"><h3>Embeds</h3><button type="button" id="add-embed">+ Add embed</button></div>
+              <div id="embed-list"></div>
+            </div>
+            <label class="check"><input id="ping" type="checkbox"> Notify mentioned users and roles</label>
+          </div>
+        </section>
+        <aside class="card preview" aria-labelledby="preview-heading">
+          <div class="card-header"><h2 id="preview-heading">Preview</h2><span class="preview-channel" id="preview-channel">No channel selected</span></div>
+          <div class="preview-body">
+            <div class="bot-avatar" id="bot-avatar" aria-hidden="true">B</div>
+            <div class="chat">
+              <div class="sender"><strong id="bot-name">Your bot</strong><span class="app-tag">APP</span></div>
+              <p id="empty-preview" class="muted">Your message will appear here as you type.</p>
+              <div id="rendered-content" class="message-text"></div>
+              <div id="rendered-embeds"></div>
+              <div id="rendered-files" class="rendered-files"></div>
+            </div>
+          </div>
+          <div class="preview-actions">
+            <p id="action-status" class="notice" role="status" hidden></p>
+            <button type="button" id="review" class="primary" disabled>Review &amp; send</button>
+            <button type="button" id="cancel-edit" class="quiet" hidden>Cancel edit</button>
+          </div>
+          <div id="receipt" class="receipt" hidden>
+            <p id="receipt-text"></p>
+            <a id="receipt-link" target="_blank" rel="noopener noreferrer">Open in Discord</a>
+            <div class="receipt-actions"><button id="again" type="button">Send again</button><button id="edit" type="button">Edit message</button></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <dialog id="confirm" aria-labelledby="confirm-title">
+    <form method="dialog">
+      <h2 id="confirm-title">Send this message?</h2>
+      <p id="confirm-detail"></p>
+      <div class="dialog-actions"><button value="cancel">Cancel</button><button id="publish" class="primary" value="publish">Send message</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
