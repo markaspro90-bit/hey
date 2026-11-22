@@ -1,7 +1,0 @@
-[build]
-builder = "RAILPACK"
-
-[deploy]
-startCommand = "npm start"
-healthcheckPath = "/healthz"
-restartPolicyType = "ON_FAILURE"
